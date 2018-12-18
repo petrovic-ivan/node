@@ -9,11 +9,11 @@ let fetchNotes = () => {
     } catch (e) {
         return [];
     }
-}
+};
 
 let saveNotes = (notes) => {
     fs.writeFileSync('note-data.json', JSON.stringify(notes));
-}
+};
 
 let addNote = (title, body) => {
 
@@ -37,11 +37,11 @@ let addNote = (title, body) => {
 
 let getAll = () => {
     console.log('Getting all notes...');
-}
+};
 
 let getNote = (title) => {
     console.log(`Getting note ${title}`);
-}
+};
 
 let removeNote = (title) => {
     const notes = fetchNotes();
@@ -49,7 +49,7 @@ let removeNote = (title) => {
     saveNotes(filteredNotes);
 
     return notes.length !== filteredNotes.length;
-}
+};
 
 module.exports = {
     addNote,
