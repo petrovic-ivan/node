@@ -2,17 +2,18 @@
     "name": "web-server",
     "version": "1.0.0",
     "description": "",
-    "main": "server.js",
+    "main": "./src/server.js",
     "scripts": {
-        "nodemon": "nodemon server.js",
-        "start": "node server.js",
+        "nodemon": "nodemon ./src/server.js",
+        "start": "node ./src/server.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "express": "^4.16.4",
-        "hbs": "^4.0.1"
+        "hbs": "^4.0.1",
+        "mongodb": "^3.1.10"
     },
     "devDependencies": {
         "nodemon": "^1.18.9"
