@@ -7,8 +7,6 @@ const { Todo } = require('./models/todo');
 
 const app = express();
 
-app.use(bodyParser.json());
-
 app.post('/todos', (req, res) => {
     const todo = new Todo({
         text: req.body.text
@@ -22,12 +20,13 @@ app.post('/todos', (req, res) => {
 });
 
 app.get('/todos', (req, res) => {
-    Todo.find().then(() => {
+
+    Todo.find({}).then((todos) => {
             res.send({ todos });
         }, (err) => {
             res.status(400).send(err);
         })
-        .catch(err => res.status(400).send('Error'));
+        .catch(err => console.log(err));
 });
 
 app.listen(3000, () => {

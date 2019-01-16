@@ -4,8 +4,19 @@ const request = require('supertest');
 const { app } = require('./../server');
 const { Todo } = require('./../models/todo');
 
+const dummyTodos = [{
+        text: 'First test todo.'
+    },
+    {
+        text: 'Second test todo.'
+    }
+];
+
 beforeEach(done => {
-    Todo.remove({}).then(() => done());
+    Todo.remove({}).then(() => {
+            return Todo.insertMany(dummyTodos);
+        })
+        .then(() => { done(); });
 });
 
 describe('POST /todos', () => {
