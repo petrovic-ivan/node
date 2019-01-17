@@ -50,6 +50,24 @@ app.get('/todos/:id', (req, res) => {
     res.send('Something is wrong.');
 });
 
+app.delete('/todos/:id', (req, res) => {
+    const id = req.params.id;
+    console.log(!ObjectId.isValid(id));
+    if (!ObjectId.isValid(id)) {
+        res.status(400).send('Failed');
+    }
+
+    Todo.findByIdAndDelete(id)
+        .then(result => {
+            res.status(200).send(result);
+        }, reason => {
+            res.status(404).send(reason);
+        }).catch(e => {
+            res.status(500).send();
+        });
+
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Started on port ${port}.`);
