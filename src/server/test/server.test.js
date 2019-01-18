@@ -60,47 +60,45 @@ beforeEach(done => {
 //     });
 // });
 
-// describe('GET /todos/:id', () => {
+// describe('GET /todos', () => {
 //     it('should return todo doc', (done) => {
-//         const id = 'dsfddswe23';
-
 //         request(app)
-//             .get(`/todos/${id}`)
-//             .expect(404)
+//             .get(`/todos`)
+//             .expect(200)
 //             .end(done);
 
 //     });
 // });
 
-describe('DELETE /todos/:id', () => {
-    it('should fail to delte todo doc', (done) => {
-        const id = 'dsfddswe23';
+// describe('DELETE /todos/:id', () => {
+//     it('should fail to delte todo doc', (done) => {
+//         const id = 'dsfddswe23';
 
-        request(app)
-            .delete(`/todos/${id}`)
-            .expect(400)
-            .end(done);
-    });
+//         request(app)
+//             .delete(`/todos/${id}`)
+//             .expect(400)
+//             .end(done);
+//     });
 
-    it('should delte todo doc', (done) => {
-        request(app)
-            .delete(`/todos/${todoId}`)
-            .expect(200)
-            .end(done);
-    });
+//     it('should delte todo doc', (done) => {
+//         request(app)
+//             .delete(`/todos/${todoId}`)
+//             .expect(200)
+//             .end(done);
+//     });
 
-});
+// });
 
 
 
-describe('PATCH /todos/:id', () => {
-    it('should fail to delte todo doc', (done) => {
-        const id = 'dsfddswe23';
+// describe('PATCH /todos/:id', () => {
+//     it('should fail to delte todo doc', (done) => {
+//         const id = 'dsfddswe23';
 
-        request(app)
-            .delete(`/todos/${id}`)
-            .expect(400)
-            .end(done);
-    });
+//         request(app)
+//             .delete(`/todos/${id}`)
+//             .expect(400)
+//             .end(done);
+//     });
 
-});
+// });

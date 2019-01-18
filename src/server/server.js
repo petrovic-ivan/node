@@ -1,8 +1,13 @@
 require('./config/config');
+require('./db/mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { ObjectId } = require('mongodb');
-const { Todo } = require('./models/todo');
+const {
+    ObjectId
+} = require('mongodb');
+const {
+    Todo
+} = require('./models/todo');
 
 const app = express();
 
@@ -23,7 +28,9 @@ app.post('/todos', (req, res) => {
 app.get('/todos', (req, res) => {
 
     Todo.find({}).then((todos) => {
-            res.send({ todos });
+            res.send({
+                todos
+            });
         }, (err) => {
             res.status(400).send(err);
         })
@@ -36,35 +43,15 @@ app.get('/todos/:id', (req, res) => {
     const valid = ObjectId.isValid(id);
 
     if (valid) {
-        Todo.findById({
-            _id: id
-        }).then(success => {
-            res.status(200);
-            res.send(success);
-        }, reject => {
-            res.status(404);
+        Todo.findById(id).exec((err, result) => {
+            if (err) {
+                res.status(404);
+            } else if (result) {
+                res.status(200);
+                res.send(result);
+            }
         });
     }
-    res.status(404);
-    res.send('Something is wrong.');
-});
-
-app.delete('/todos/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(!ObjectId.isValid(id));
-    if (!ObjectId.isValid(id)) {
-        res.status(400).send('Failed');
-    }
-
-    Todo.findByIdAndDelete(id)
-        .then(result => {
-            res.status(200).send(result);
-        }, reason => {
-            res.status(404).send(reason);
-        }).catch(e => {
-            res.status(500).send();
-        });
-
 });
 
 app.patch('/todos/:id', (req, res) => {
@@ -75,7 +62,14 @@ app.patch('/todos/:id', (req, res) => {
         res.status(400).send('Failed');
     }
 
-    Todo.updateOne({ '_id': id }, { $set: { "text": todo.text, "completed": todo.completed } })
+    Todo.updateOne({
+            '_id': id
+        }, {
+            $set: {
+                "text": todo.text,
+                "completed": todo.completed
+            }
+        })
         .then(result => {
             res.status(200).send(result);
         }, reason => {
@@ -91,4 +85,6 @@ app.listen(port, () => {
     console.log(`Started on port ${port}.`);
 });
 
-module.exports = { app };
+module.exports = {
+    app
+};
