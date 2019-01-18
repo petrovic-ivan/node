@@ -1,17 +1,9 @@
+require('./config/config');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { ObjectId } = require('mongodb');
-const mongoose = require('./db/mongoose');
-const { User } = require('./models/user');
 const { Todo } = require('./models/todo');
 
-const env = process.env.NODE_ENV || 'development';
-process.env.PORT = 3000;
-if (env === 'development') {
-    process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
-} else if (env === 'test') {
-    process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoAppTest';
-}
 const app = express();
 
 app.use(bodyParser.json());
