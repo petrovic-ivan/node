@@ -4,10 +4,18 @@ const { ObjectId } = require('mongodb');
 const { app } = require('./../server');
 const { Todo } = require('./../models/todo');
 
+let todoId;
+
 beforeEach(done => {
-    Todo.deleteMany({}).then(() => {
+    const todo = new Todo({
+        text: 'Test todo.'
+    });
+
+    todo.save().then(res => {
+        todoId = res._id;
         done();
     });
+
 });
 
 // describe('POST /todos', () => {
@@ -62,6 +70,37 @@ describe('GET /todos/:id', () => {
             .end(done);
 
     });
+});
 
+describe('DELETE /todos/:id', () => {
+    it('should fail to delte todo doc', (done) => {
+        const id = 'dsfddswe23';
+
+        request(app)
+            .delete(`/todos/${id}`)
+            .expect(400)
+            .end(done);
+    });
+
+    it('should delte todo doc', (done) => {
+        request(app)
+            .delete(`/todos/${todoId}`)
+            .expect(200)
+            .end(done);
+    });
+
+});
+
+
+
+describe('PATCH /todos/:id', () => {
+    it('should fail to delte todo doc', (done) => {
+        const id = 'dsfddswe23';
+
+        request(app)
+            .delete(`/todos/${id}`)
+            .expect(400)
+            .end(done);
+    });
 
 });

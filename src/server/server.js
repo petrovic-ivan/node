@@ -5,6 +5,13 @@ const mongoose = require('./db/mongoose');
 const { User } = require('./models/user');
 const { Todo } = require('./models/todo');
 
+const env = process.env.NODE_ENV || 'development';
+process.env.PORT = 3000;
+if (env === 'development') {
+    process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
+} else if (env === 'test') {
+    process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoAppTest';
+}
 const app = express();
 
 app.use(bodyParser.json());
@@ -58,6 +65,25 @@ app.delete('/todos/:id', (req, res) => {
     }
 
     Todo.findByIdAndDelete(id)
+        .then(result => {
+            res.status(200).send(result);
+        }, reason => {
+            res.status(404).send(reason);
+        }).catch(e => {
+            res.status(500).send();
+        });
+
+});
+
+app.patch('/todos/:id', (req, res) => {
+    const todo = req.body.todo;
+    const id = req.params.id;
+
+    if (!ObjectId.isValid(id)) {
+        res.status(400).send('Failed');
+    }
+
+    Todo.updateOne({ '_id': id }, { $set: { "text": todo.text, "completed": todo.completed } })
         .then(result => {
             res.status(200).send(result);
         }, reason => {

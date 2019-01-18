@@ -6,7 +6,7 @@
     "scripts": {
         "nodemon": "nodemon ./src/server/server.js",
         "start": "node ./src/server/server.js",
-        "test": "mocha ./src/**/*.test.js",
+        "test": "export NODE_ENV=test || SET \"NODE_ENV=test\" && mocha ./src/**/*.test.js",
         "test-watch": "nodemon --exec \"npm test\""
     },
     "author": "",
