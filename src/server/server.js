@@ -99,6 +99,12 @@ app.post('/users', (req, res) => {
     }).catch(e => res.status(500).send(e));
 });
 
+app.get('/users/me', (req, res) => {
+    const token = req.header('x-auth');
+
+    User.findByToken(token).then(user => res.send(user));
+});
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Started on port ${port}.`);
