@@ -12,6 +12,8 @@ const {
     User
 } = require('./models/user');
 
+const { authenticate } = require('./middleware/auth');
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -99,10 +101,8 @@ app.post('/users', (req, res) => {
     }).catch(e => res.status(500).send(e));
 });
 
-app.get('/users/me', (req, res) => {
-    const token = req.header('x-auth');
-
-    User.findByToken(token).then(user => res.send(user));
+app.get('/users/me', authenticate, (req, res) => {
+    res.send(req.user);
 });
 
 const port = process.env.PORT || 3000;
