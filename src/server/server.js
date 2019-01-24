@@ -8,6 +8,9 @@ const {
 const {
     Todo
 } = require('./models/todo');
+const {
+    User
+} = require('./models/user');
 
 const app = express();
 
@@ -78,6 +81,22 @@ app.patch('/todos/:id', (req, res) => {
             res.status(500).send();
         });
 
+});
+
+app.post('/users', (req, res) => {
+    const data = {
+        email: req.body.user.email,
+        password: req.body.user.password
+    };
+
+    const user = new User(data);
+    user.save().then(result => {
+        return user.generateAuthToken();
+    }).then(token => {
+        res.header('x-auth', token).send(user);
+    }, rejected => {
+        res.status(404).send(rejected);
+    }).catch(e => res.status(500).send(e));
 });
 
 const port = process.env.PORT || 3000;
