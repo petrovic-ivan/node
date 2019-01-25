@@ -3,20 +3,12 @@ const request = require('supertest');
 const { ObjectId } = require('mongodb');
 const { app } = require('./../server');
 const { Todo } = require('./../models/todo');
+const { populateTodos, populateUsers, users, todos } = require('./seed');
 
 let todoId;
 
-beforeEach(done => {
-    const todo = new Todo({
-        text: 'Test todo.'
-    });
-
-    todo.save().then(res => {
-        todoId = res._id;
-        done();
-    }, e => done()).catch(done);
-
-});
+beforeEach(done => populateUsers(done));
+// beforeEach(done => populateTodos(done));
 
 // describe('POST /todos', () => {
 //     it('should create new todo', (done) => {
@@ -91,14 +83,18 @@ beforeEach(done => {
 
 
 
-// describe('PATCH /todos/:id', () => {
-//     it('should fail to delte todo doc', (done) => {
-//         const id = 'dsfddswe23';
+describe('POST /users', () => {
 
-//         request(app)
-//             .delete(`/todos/${id}`)
-//             .expect(400)
-//             .end(done);
-//     });
+    it('should create a user', (done) => {
+        const email = 'example@example.com';
+        const password = '12312ewdsa';
+        expect(1).toBe(1);
 
-// });
+        request(app)
+            .post('/users')
+            .send({ email, password })
+            .expect(200)
+            .end(done);
+    });
+
+});
